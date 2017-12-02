@@ -7,15 +7,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 
 public class RootNode extends DefaultMutableTreeNode {
-    private int childNodesCounter;
+    private final int childNodesCounter;
     
     public RootNode(DataProject data) {
         ArrayList<DataClass> classes = data.getDataClasses();
         childNodesCounter = classes.size();
         
-        for (DataClass dclass : classes) {
+        classes.forEach((dclass) -> {
             this.add(new ClassNode(dclass));
-        }
+        });
     }
 
     public int getChildNodesCounter() {

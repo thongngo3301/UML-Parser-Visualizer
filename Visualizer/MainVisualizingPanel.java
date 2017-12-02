@@ -1,14 +1,10 @@
 package Visualizer;
 
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
 import javax.swing.*;
 import com.mindfusion.drawing.*;
 import com.mindfusion.diagramming.*;
 import Parser.*;
-import java.util.ArrayList;
 
 public class MainVisualizingPanel extends JScrollPane {
     private Diagram diagram;
@@ -37,20 +33,19 @@ public class MainVisualizingPanel extends JScrollPane {
     
     private void generate(DataProject data) {
         diagram.clearAll();
-        for (DataClass aClass : data.getDataClasses()) {
+        data.getDataClasses().stream().map((DataClass aClass) -> {
             TableNode node = diagram.getFactory().createTableNode(0, 15, 0, 0);
-            
             node.redimTable(1, 0);
             node.setCellFrameStyle(CellFrameStyle.None);
-            
             createTitle(node, aClass.getNameClass());
-            
             createContent(node, aClass);
-            
+            return node;
+        }).map((node) -> {
             node.resizeToFitText(true);
-            
+            return node;            
+        }).forEachOrdered((node) -> {
             diagram.add(node);
-        }
+        });
     }
     
     private void createTitle(TableNode node, String title) {
@@ -62,14 +57,14 @@ public class MainVisualizingPanel extends JScrollPane {
     private void createContent(TableNode node, DataClass classContent) {
         Cell cell = node.getCell(0, node.addRow());
         styleClassMember(cell, "Attributes");
-        for (DataAttribute attribute : classContent.getDataAttributeClasses()) {
+        classContent.getDataAttributeClasses().forEach((attribute) -> {
             styleMemberProperties(node, attribute.getNameAttribute());
-        }
+        });
         cell = node.getCell(0, node.addRow());
         styleClassMember(cell, "Methods");
-        for (DataMethod method : classContent.getDataMethodClasses()) {
+        classContent.getDataMethodClasses().forEach((method) -> {
             styleMemberProperties(node, method.getNameMethod());
-        }
+        });
     }
     
     private void styleClassMember(Cell cell, String member) {

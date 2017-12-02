@@ -3,7 +3,7 @@ package Visualizer;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
-	private static MainFrame window = new MainFrame();
+	private static final MainFrame window = new MainFrame();
 
 	private MainFrame() {
             super("UML Visualizer");
