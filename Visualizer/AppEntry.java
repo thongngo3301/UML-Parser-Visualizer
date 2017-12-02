@@ -3,42 +3,41 @@ package Visualizer;
 import javax.swing.*;
 import java.awt.*;
 
-public class AppRun {
+public class AppEntry {
     private static MainFrame mainFrame;
     private static TreeView treeView;
     private static JTextArea textArea;
-    private static MainVisualizer mainVisualizer;
+    private static MainVisualizingPanel mainVisualizingPanel;
     
     public static MainFrame getMainFrame() {
-        return AppRun.mainFrame;
+        return AppEntry.mainFrame;
     }
     
     public static void setTreeView(TreeView treeView) {
-        AppRun.treeView = treeView;
+        AppEntry.treeView = treeView;
     }
     
     public static TreeView getTreeView() {
-        return AppRun.treeView;
+        return AppEntry.treeView;
     }
     
     public static JTextArea getTextArea() {
-        return AppRun.textArea;
+        return AppEntry.textArea;
     }
     
     public static void init() {
         mainFrame = MainFrame.getMainFrameInstance();
         treeView = new TreeView();
-        mainVisualizer = new MainVisualizer();
+        mainVisualizingPanel = new MainVisualizingPanel();
         textArea = new JTextArea();
-        
-        textArea.setPreferredSize(new Dimension(1400, 30));
+        textArea.setPreferredSize(new Dimension(800, 30));
         
         mainFrame.add(treeView, BorderLayout.WEST);
-        mainFrame.add(mainVisualizer, BorderLayout.CENTER);
+        mainFrame.add(mainVisualizingPanel, BorderLayout.CENTER);
         mainFrame.add(textArea, BorderLayout.SOUTH);
     }
     
     public static void main(String[] args) {
-        AppRun.init();
+        AppEntry.init();
     }
 }

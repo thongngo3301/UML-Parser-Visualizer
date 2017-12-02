@@ -37,6 +37,6 @@ public class TreeView extends JScrollPane {
         tree.setShowsRootHandles(true);
 
         setViewportView(tree);
-        setPreferredSize(new Dimension(200, 800));
+        setPreferredSize(new Dimension(180, 600));
     }
 }

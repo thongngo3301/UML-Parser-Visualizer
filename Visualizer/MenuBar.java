@@ -21,17 +21,17 @@ public class MenuBar extends JMenuBar {
 
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-                if (chooser.showOpenDialog(AppRun.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
+                if (chooser.showOpenDialog(AppEntry.getMainFrame()) == JFileChooser.APPROVE_OPTION) {
                     File f = chooser.getSelectedFile();
                     String selectedPath = f.getAbsolutePath();
                     
-                    AppRun.getMainFrame().remove(AppRun.getTreeView());
-                    AppRun.setTreeView(new TreeView(selectedPath));
-                    AppRun.getMainFrame().add(AppRun.getTreeView(), BorderLayout.WEST);
-                    AppRun.getTextArea().append("Loaded " + AppRun.getTreeView().getClassesCounter()
+                    AppEntry.getMainFrame().remove(AppEntry.getTreeView());
+                    AppEntry.setTreeView(new TreeView(selectedPath));
+                    AppEntry.getMainFrame().add(AppEntry.getTreeView(), BorderLayout.WEST);
+                    AppEntry.getTextArea().append("Loaded " + AppEntry.getTreeView().getClassesCounter()
                                                          + " file(s) from " + selectedPath + "\n");
-                    AppRun.getMainFrame().revalidate();
-                    AppRun.getMainFrame().repaint();
+                    AppEntry.getMainFrame().revalidate();
+                    AppEntry.getMainFrame().repaint();
                 }
             }
         });
