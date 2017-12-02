@@ -16,12 +16,9 @@ public class MainVisualizingPanel extends JScrollPane {
         
         setViewportView(diagramView);
       
-        generate(data);
+        generateNodes(data);
         
         TreeLayout layout = new TreeLayout();
-        layout.setLinkStyle(TreeLayoutLinkType.Straight);
-        layout.setLevelDistance(50);
-        layout.setNodeDistance(50);
         layout.arrange(diagram);
         
         diagramView.setBehavior(Behavior.PanAndModify);
@@ -31,7 +28,7 @@ public class MainVisualizingPanel extends JScrollPane {
         diagram.setAutoResize(AutoResize.AllDirections);
     }
     
-    private void generate(DataProject data) {
+    private void generateNodes(DataProject data) {
         diagram.clearAll();
         data.getDataClasses().stream().map((DataClass aClass) -> {
             TableNode node = diagram.getFactory().createTableNode(0, 15, 0, 0);
@@ -40,9 +37,9 @@ public class MainVisualizingPanel extends JScrollPane {
             createTitle(node, aClass.getNameClass());
             createContent(node, aClass);
             return node;
-        }).map((node) -> {
+        }).map((TableNode node) -> {
             node.resizeToFitText(true);
-            return node;            
+            return node;
         }).forEachOrdered((node) -> {
             diagram.add(node);
         });
