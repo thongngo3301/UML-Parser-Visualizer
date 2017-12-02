@@ -16,9 +16,9 @@ public class TreeView extends JScrollPane {
         this.init(new DefaultMutableTreeNode("Empty"));
     }
     
-    public TreeView(String path) {
+    public void draw(DataProject data) {
         try {
-            RootNode node = new RootNode(new DataProject(path));
+            RootNode node = new RootNode(data);
             classesCounter = node.getChildNodesCounter();
             this.init(node);
         } catch (Exception ex) {
