@@ -8,11 +8,11 @@ public class MainFrame extends JFrame {
 	private MainFrame() {
             super("UML Visualizer");
             
-            setJMenuBar(MenuBar.getMenuBarInstance());
-            setSize(800, 600);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLocationRelativeTo(null);
-            setVisible(true);
+            this.setJMenuBar(MenuBar.getMenuBarInstance());
+            this.setSize(800, 600);
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.setLocationRelativeTo(null);
+            this.setVisible(true);
 	}
 
 	public static MainFrame getMainFrameInstance() {

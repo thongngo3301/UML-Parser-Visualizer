@@ -14,9 +14,9 @@ public class MainVisualizingPanel extends JScrollPane {
         diagram = new Diagram();
         diagramView = new DiagramView(diagram);
         
-        setViewportView(diagramView);
-      
-        generateNodes(data);
+        this.setViewportView(diagramView);
+        
+        this.generateNodes(data);
         
         TreeLayout layout = new TreeLayout();
         layout.arrange(diagram);

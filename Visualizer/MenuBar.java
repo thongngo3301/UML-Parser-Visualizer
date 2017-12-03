@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,13 +13,41 @@ import java.util.logging.Logger;
 public class MenuBar extends JMenuBar {
     private static final MenuBar menu = new MenuBar();
     
-    private final JMenu fileMenu = new JMenu("File");
-
-    private final JMenuItem openProject = new JMenuItem("Open...");
+    private final JMenu mainMenu;
     
     private MenuBar() {
-        openProject.addActionListener((ActionEvent e) -> {
-            JFileChooser chooser = new JFileChooser(new java.io.File("."));
+        mainMenu = new JMenu("File");
+        this.add(createdMainMenu(mainMenu));
+    }
+    
+    private JMenu createdMainMenu(JMenu menu) {
+        menu.setMnemonic(KeyEvent.VK_F);
+        
+        JMenuItem openProjectItem = new JMenuItem("Open Project...");
+        openProjectItem = createdOpenProjectItem(openProjectItem);
+        menu.add(openProjectItem);
+        
+        menu.addSeparator();
+        
+        JMenuItem exitAppItem = new JMenuItem("Exit");
+        exitAppItem = createdExitAppItem(exitAppItem);
+        menu.add(exitAppItem);
+        
+        return menu;
+    }
+    
+    private JMenuItem createdOpenProjectItem(JMenuItem item) {
+        item.setMnemonic(KeyEvent.VK_O);
+        KeyStroke openProjectItemShortcut = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
+        item.setAccelerator(openProjectItemShortcut);
+        this.handleOpenProjectItem(item);
+        
+        return item;
+    }
+    
+    private void handleOpenProjectItem(JMenuItem item) {
+        item.addActionListener((ActionEvent e) -> {
+            JFileChooser chooser = new JFileChooser();
             
             chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             
@@ -41,12 +70,21 @@ public class MenuBar extends JMenuBar {
                 AppEntry.getMainFrame().repaint();
             }
         });
-        
-        fileMenu.add(openProject);
-
-        this.add(fileMenu);
     }
-
+    
+    private JMenuItem createdExitAppItem(JMenuItem item) {
+        item.setMnemonic(KeyEvent.VK_X);
+        this.handleExitAppItem(item);
+        
+        return item;
+    }
+    
+    private void handleExitAppItem(JMenuItem item) {
+        item.addActionListener((ActionEvent e) -> {
+            System.exit(0);
+        });
+    }
+    
     public static MenuBar getMenuBarInstance() {
         return menu;
     }
