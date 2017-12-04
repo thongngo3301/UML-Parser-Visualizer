@@ -79,4 +79,5 @@ public class MainVisualizingPanel extends JScrollPane {
         cell.setTextFormat(new TextFormat(Align.Near, Align.Near));
         cell.setBrush(new SolidBrush(Color.WHITE));
     }
+    
 }

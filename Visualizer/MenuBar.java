@@ -17,20 +17,20 @@ public class MenuBar extends JMenuBar {
     
     private MenuBar() {
         mainMenu = new JMenu("File");
-        this.add(createdMainMenu(mainMenu));
+        this.add(this.createdMainMenu(mainMenu));
     }
     
     private JMenu createdMainMenu(JMenu menu) {
         menu.setMnemonic(KeyEvent.VK_F);
         
         JMenuItem openProjectItem = new JMenuItem("Open Project...");
-        openProjectItem = createdOpenProjectItem(openProjectItem);
+        openProjectItem = this.createdOpenProjectItem(openProjectItem);
         menu.add(openProjectItem);
         
         menu.addSeparator();
         
         JMenuItem exitAppItem = new JMenuItem("Exit");
-        exitAppItem = createdExitAppItem(exitAppItem);
+        exitAppItem = this.createdExitAppItem(exitAppItem);
         menu.add(exitAppItem);
         
         return menu;

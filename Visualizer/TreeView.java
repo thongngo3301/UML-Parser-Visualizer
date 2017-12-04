@@ -5,7 +5,6 @@ import Parser.DataProject;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +35,7 @@ public class TreeView extends JScrollPane {
         tree.setRootVisible(true);
         tree.setShowsRootHandles(true);
 
-        setViewportView(tree);
-        setPreferredSize(new Dimension(180, 600));
+        this.setViewportView(tree);
+        this.setPreferredSize(new Dimension(180, 600));
     }
 }
