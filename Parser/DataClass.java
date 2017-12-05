@@ -16,8 +16,9 @@ public class DataClass extends Data{
     private final ArrayList<String> interfaceClasses;
     private final ArrayList<DataAttribute> dataAttributeClasses;
     private final ArrayList<DataMethod> dataMethodClasses;
+    private final ArrayList<String> dataHasAClasses;
     //constructor
-    public DataClass(File file) throws Exception{
+    public DataClass(File file) throws Exception {
         this.isClass = false;
         this.isInterface = false;
         this.setVisibilityClass("default");
@@ -26,6 +27,7 @@ public class DataClass extends Data{
         this.interfaceClasses = new ArrayList<String>();
         this.dataAttributeClasses = new ArrayList<DataAttribute>();
         this.dataMethodClasses = new ArrayList<DataMethod>();
+        this.dataHasAClasses = new ArrayList<String>();
         this.setDataClass(file);
     }
     //setter getter
@@ -44,11 +46,14 @@ public class DataClass extends Data{
     public void addInterfaceClasses(String interfaceClass) { this.interfaceClasses.add(interfaceClass); }
     public ArrayList<String> getInterfaceClasses() { return interfaceClasses; }
     
-    public void addDataAttributeClasses(DataAttribute dataattribute){ this.dataAttributeClasses.add(dataattribute); }
+    public void addDataAttributeClasses(DataAttribute dataattribute) { this.dataAttributeClasses.add(dataattribute); }
     public ArrayList<DataAttribute> getDataAttributeClasses() { return dataAttributeClasses; }
     
-    public void addDataMethodClasses(DataMethod datamethod){ this.dataMethodClasses.add(datamethod); }
+    public void addDataMethodClasses(DataMethod datamethod) { this.dataMethodClasses.add(datamethod); }
     public ArrayList<DataMethod> getDataMethodClasses() { return dataMethodClasses; }
+
+    public void addDataHasAClasses(String nameClass) { this.dataHasAClasses.add(nameClass); }
+    public ArrayList<String> getDataHasAClasses() { return dataHasAClasses; }
     //method
     public final void setDataClass(File file) throws Exception{
         FileReader filereader = new FileReader(file);
@@ -177,6 +182,17 @@ public class DataClass extends Data{
         newsourceCode = newsourceCode.trim();
         return newsourceCode;
     }
+    public static void setDataHasAClasses(DataClass dataClass) {
+        for (DataAttribute dataAttribute : dataClass.getDataAttributeClasses()) {
+            for (String newType : Data.getTypes()) {
+                if(dataAttribute.getTypeAttribute().contains("<" + newType + ">") 
+                || dataAttribute.getTypeAttribute().equals(newType)) {
+                    if(dataClass.getDataHasAClasses().contains(newType));
+                    else dataClass.addDataHasAClasses(newType);
+                }
+            }
+        }
+    }
     @Override
     public String toString() {
         String temp = "";
@@ -186,6 +202,10 @@ public class DataClass extends Data{
         temp = temp.concat("\nScope: " + getScopeClass());
         temp = temp.concat("\nSuperClass: " + getSuperClass());
         temp = temp.concat("\nInterface: ");
+        temp = temp.concat("\nHas A: ");
+        for (String var : dataHasAClasses) {
+            temp = temp.concat(var + " ");
+        }
         for (String var : interfaceClasses) {
             temp = temp.concat(var + " ");
         }
@@ -203,5 +223,10 @@ public class DataClass extends Data{
         File ex = new File("/home/xuanquynh/Downloads/OOP/tuan8/Cau1/Addition.java");
         DataClass dataclass = new DataClass(ex);
         System.out.printf("%s", dataclass.toString());
+    } */
+    /* public static void main(String[] args) {
+        String a = new String("ArrayList<Data>");
+        String b = new String("Data");
+        System.out.print(a.contains(b));
     } */
 }

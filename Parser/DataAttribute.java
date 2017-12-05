@@ -51,7 +51,7 @@ public class DataAttribute extends Data{
             dataFirstAttribute.setTypeAttribute(arr_dataattribute[arr_dataattribute.length - 2]);
             dataFirstAttribute.setNameAttribute(arr_dataattribute[arr_dataattribute.length - 1]);
             String datavalue = arr_partline[0].substring(equal + 2, arr_partline[0].length());
-            dataFirstAttribute.setValueAttribute(datavalue);
+            dataFirstAttribute.setValueAttribute(datavalue.replaceAll(";", "").trim());
         } else {
             String arr_dataattribute[] = arr_partline[0].replaceAll(";", "").split(" ");
             for (String iter : arr_dataattribute) {
@@ -90,7 +90,7 @@ public class DataAttribute extends Data{
         String temp = "";
         temp = temp.concat(toStringVisibility(visibilityAttribute) + getNameAttribute() + ":" + getTypeAttribute());
         if(this.getValueAttribute().equals("default"));
-        else temp = temp.concat("=" + getValueAttribute());
+//        else temp = temp.concat("=" + getValueAttribute());
         return temp;
     }
 }

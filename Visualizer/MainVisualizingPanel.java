@@ -6,7 +6,7 @@ import Parser.*;
 import com.mindfusion.drawing.*;
 import com.mindfusion.diagramming.*;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainVisualizingPanel extends JScrollPane {
@@ -85,6 +85,18 @@ public class MainVisualizingPanel extends JScrollPane {
 //                    }
 //                }
 //            }
+            if (this.classContainer.get(i).getDataHasAClasses().size() > 0) {
+                ArrayList<String> dataHasAClasses = this.classContainer.get(i).getDataHasAClasses();
+                for (int j = 0; j < dataHasAClasses.size(); j++) {
+                    for (int k = 0; k < this.classContainer.size(); k++) {
+                        if (this.classContainer.get(k).getNameClass().equals(dataHasAClasses.get(j))) {
+                            parentNode = this.nodeContainer.get(i);
+                            this.styleHeadShape(parentNode, childNode, "HAS-A");
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
     

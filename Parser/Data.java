@@ -8,11 +8,6 @@ public class Data{
     private static final ArrayList<String> visibilitys = new ArrayList<String>();
     //constructor
     public Data(){
-        if(getTypes().isEmpty()) {
-            getTypes().add("boolean");getTypes().add("char");getTypes().add("int");
-            getTypes().add("short");getTypes().add("long");getTypes().add("float");
-            getTypes().add("double");
-        }
         if(getVisibilitys().isEmpty()) {
             getVisibilitys().add("public");getVisibilitys().add("private");
             getVisibilitys().add("protected");

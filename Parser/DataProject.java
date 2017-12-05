@@ -17,6 +17,9 @@ public class DataProject{
             DataClass dataclass = new DataClass(temp);
             this.addDataClasses(dataclass);
         }
+        for (DataClass dataClass : this.getDataClasses()) {
+            DataClass.setDataHasAClasses(dataClass);
+        }
     }
     //setter getter
     public File getFile() {
