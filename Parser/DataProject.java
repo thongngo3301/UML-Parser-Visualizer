@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class DataProject{
     //attribute
-    private File file;
-    private File[] files;
-    private ArrayList<DataClass> dataClasses;
+    private final File file;
+    private final File[] files;
+    private final ArrayList<DataClass> dataClasses;
     //constructor
     public DataProject(String path) throws Exception{
         this.file = new File(path);
@@ -25,18 +25,20 @@ public class DataProject{
     public File[] getFiles() {
         return files;
     }
-    public void addDataClasses(DataClass dataclass){
+    public final void addDataClasses(DataClass dataclass){
         this.dataClasses.add(dataclass);
     }
     public ArrayList<DataClass> getDataClasses() {
         return dataClasses;
     }
     //method
-    public void display(){
-        System.out.printf("Project: %s", getFile().getName());
+    @Override
+    public String toString() {
+        String temp = "";
+        temp = temp.concat("Project: " + getFile().getName());
         for (DataClass var : getDataClasses()) {
-            var.display();
+            temp = temp.concat(var.toString());
         }
+        return temp;
     }
-
 }

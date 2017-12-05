@@ -10,19 +10,20 @@ public class DataParameter {
         this.setNameParameter(name);
     }
     //setter getter
-    public void setTypeParameter(String type) {
+    public final void setTypeParameter(String type) {
         this.typeParameter = type;
     }
     public String getTypeParameter(){
         return typeParameter;
     }
-    public void setNameParameter(String name){
+    public final void setNameParameter(String name){
         this.nameParameter = name;
     }
     public String getNameParameter(){
         return nameParameter;
     }
-    public void display(){
-        System.out.printf("%s : %s", getNameParameter(), getTypeParameter());
+    @Override
+    public String toString(){
+        return (getNameParameter() + ": " + getTypeParameter()).trim();
     }
 }

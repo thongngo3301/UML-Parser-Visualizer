@@ -15,13 +15,13 @@ public class DataAttribute extends Data{
         this.setDataAttribute(line);
     }
     // setter getter
-    public void setVisibilityAttribute(String visibilityAttribute) {
+    public final void setVisibilityAttribute(String visibilityAttribute) {
         this.visibilityAttribute = visibilityAttribute;
     }
     public String getVisibilityAttribute() {
         return visibilityAttribute;
     }
-    public void setScopeAttribute(String scopeAttribute) {
+    public final void setScopeAttribute(String scopeAttribute) {
         this.scopeAttribute = scopeAttribute;
     }
     public String getScopeAttribute() {
@@ -39,14 +39,14 @@ public class DataAttribute extends Data{
     public String getNameAttribute() {
         return nameAttribute;
     }
-    public void setValueAttribute(String valueAttribute) {
+    public final void setValueAttribute(String valueAttribute) {
         this.valueAttribute = valueAttribute;
     }
     public String getValueAttribute() {
         return valueAttribute;
     }
-    // method public String dataMethod;
-    public void setDataAttribute(String line){
+    // method 
+    public final void setDataAttribute(String line){ //public String dataMethod;
         if(line.contains("=")) {
             int equal = line.indexOf('=');
             String dataattribute = line.substring(0, equal - 1);
@@ -75,10 +75,12 @@ public class DataAttribute extends Data{
             this.setNameAttribute(arr_dataattribute[arr_dataattribute.length - 2]);
         }
     }
-    public void display(){
-        this.displayVisibility(visibilityAttribute);
-        System.out.printf("%s : %s", getNameAttribute(), getTypeAttribute());
+    @Override
+    public String toString() {
+        String temp = "";
+        temp = temp.concat(toStringVisibility(visibilityAttribute) + getNameAttribute() + ": " + getTypeAttribute());
         if(this.getValueAttribute().equals("default"));
-        else System.out.printf(" = %s", getValueAttribute());
+        else temp = temp.concat(" = " + getValueAttribute());
+        return temp.trim();
     }
 }

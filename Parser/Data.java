@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Data{
     //attribute
-    private static ArrayList<String> types = new ArrayList<String>();
-    private static ArrayList<String> visibilitys = new ArrayList<String>();
+    private static final ArrayList<String> types = new ArrayList<String>();
+    private static final ArrayList<String> visibilitys = new ArrayList<String>();
     //constructor
     public Data(){
         if(this.getTypes().isEmpty()) {
@@ -22,35 +22,25 @@ public class Data{
     public void addTypes(String type) {
         this.getTypes().add(type);
     }
-    public ArrayList<String> getTypes() {
+    public final ArrayList<String> getTypes() {
         return types;
     }
-    public ArrayList<String> getVisibilitys() {
+    public final ArrayList<String> getVisibilitys() {
         return visibilitys;
     }
     //method
     public boolean isType(String type) {
-        if(this.getTypes().contains(type)) return true;
-        return false;
+        return this.getTypes().contains(type);
     }
     public boolean isVisibility(String visibility) {
-        if(this.getVisibilitys().contains(visibility)) return true;
-        return false;
+        return this.getVisibilitys().contains(visibility);
     }
-    public void displayVisibility(String visibility) {
-        switch(visibility){
-            case "public":
-                System.out.printf("\n + ");
-                break;
-            case "private":
-                System.out.printf("\n - ");
-                break;
-            case "protected":
-                System.out.printf("\n # ");
-                break;
-            case "default":
-                System.out.printf("\n ~ ");
-                break;
-        }
+    public String toStringVisibility(String visibility) {
+        String temp = "\n";
+        if(visibility.equals("public")) temp = temp.concat(" + ");
+        if(visibility.equals("private")) temp = temp.concat(" - ");
+        if(visibility.equals("protected")) temp = temp.concat(" # ");
+        if(visibility.equals("default")) temp = temp.concat(" ~ ");
+        return temp;
     }
 }

@@ -24,18 +24,18 @@ public class MainVisualizingPanel extends JScrollPane {
         diagramView.setBehavior(Behavior.PanAndModify);
 	diagramView.setModificationStart(ModificationStart.AutoHandles);
         
-        diagram.resizeToFitItems(10);
+        diagram.resizeToFitItems(5);
         diagram.setAutoResize(AutoResize.AllDirections);
     }
     
     private void generateNodes(DataProject data) {
         diagram.clearAll();
         data.getDataClasses().stream().map((DataClass aClass) -> {
-            TableNode node = diagram.getFactory().createTableNode(0, 15, 0, 0);
+            TableNode node = diagram.getFactory().createTableNode(10, 10, 50, 100);
             node.redimTable(1, 0);
             node.setCellFrameStyle(CellFrameStyle.None);
-            createTitle(node, aClass.getNameClass());
-            createContent(node, aClass);
+            this.createTitle(node, aClass.getNameClass());
+            this.createContent(node, aClass);
             return node;
         }).map((TableNode node) -> {
             node.resizeToFitText(true);
@@ -53,14 +53,14 @@ public class MainVisualizingPanel extends JScrollPane {
     
     private void createContent(TableNode node, DataClass classContent) {
         Cell cell = node.getCell(0, node.addRow());
-        styleClassMember(cell, "Attributes");
+        this.styleClassMember(cell, "Attributes");
         classContent.getDataAttributeClasses().forEach((attribute) -> {
-            styleMemberProperties(node, attribute.getNameAttribute());
+            this.styleMemberProperties(node, attribute.toString());
         });
         cell = node.getCell(0, node.addRow());
-        styleClassMember(cell, "Methods");
+        this.styleClassMember(cell, "Methods");
         classContent.getDataMethodClasses().forEach((method) -> {
-            styleMemberProperties(node, method.getNameMethod());
+            this.styleMemberProperties(node, method.toString());
         });
     }
     
@@ -79,5 +79,6 @@ public class MainVisualizingPanel extends JScrollPane {
         cell.setTextFormat(new TextFormat(Align.Near, Align.Near));
         cell.setBrush(new SolidBrush(Color.WHITE));
     }
+    
     
 }
