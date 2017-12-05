@@ -56,6 +56,7 @@ public class MenuBar extends JMenuBar {
                 String path = f.getAbsolutePath();
                 
                 AppEntry.getMainFrame().remove(AppEntry.getTreeView());
+                AppEntry.getMainFrame().remove(AppEntry.getTextArea());
                 try {
                     AppEntry.setDataProject(new DataProject(path));
                 } catch (Exception ex) {
@@ -63,8 +64,9 @@ public class MenuBar extends JMenuBar {
                 }
                 AppEntry.getTreeView().draw(AppEntry.getDataProject());
                 AppEntry.getMainFrame().add(AppEntry.getTreeView(), BorderLayout.WEST);
-                AppEntry.getTextArea().append("Loaded " + AppEntry.getTreeView().getClassesCounter()
-                        + " file(s) from " + path + "\n");
+                AppEntry.setTextArea(new JTextArea("Loaded " + AppEntry.getTreeView().getClassesCounter()
+                        + " file(s) from " + path + "\n"));
+                AppEntry.getMainFrame().add(AppEntry.getTextArea(), BorderLayout.SOUTH);
                 AppEntry.getMainVisualizingPanel().draw(AppEntry.getDataProject());
                 AppEntry.getMainFrame().revalidate();
                 AppEntry.getMainFrame().repaint();

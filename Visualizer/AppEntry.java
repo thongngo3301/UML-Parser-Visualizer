@@ -31,7 +31,7 @@ public class AppEntry {
         treeView = new TreeView();
         mainVisualizingPanel = new MainVisualizingPanel();
         textArea = new JTextArea();
-        textArea.setPreferredSize(new Dimension(800, 30));
+        textArea.setPreferredSize(new Dimension(800, 20));
         
         mainFrame.add(treeView, BorderLayout.WEST);
         mainFrame.add(mainVisualizingPanel, BorderLayout.CENTER);

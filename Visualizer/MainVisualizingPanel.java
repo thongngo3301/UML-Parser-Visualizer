@@ -55,12 +55,12 @@ public class MainVisualizingPanel extends JScrollPane {
         Cell cell = node.getCell(0, node.addRow());
         this.styleClassMember(cell, "Attributes");
         classContent.getDataAttributeClasses().forEach((attribute) -> {
-            this.styleMemberProperties(node, attribute.toString());
+            this.styleMemberProperties(node, attribute.toString().trim());
         });
         cell = node.getCell(0, node.addRow());
         this.styleClassMember(cell, "Methods");
         classContent.getDataMethodClasses().forEach((method) -> {
-            this.styleMemberProperties(node, method.toString());
+            this.styleMemberProperties(node, method.toString().trim());
         });
     }
     
@@ -76,9 +76,7 @@ public class MainVisualizingPanel extends JScrollPane {
         Cell cell = node.getCell(0, node.addRow());
         cell.setFont(new Font("Arial", Font.PLAIN, 4));
         cell.setText(prop);
-        cell.setTextFormat(new TextFormat(Align.Near, Align.Near));
         cell.setBrush(new SolidBrush(Color.WHITE));
     }
-    
     
 }

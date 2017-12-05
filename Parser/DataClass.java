@@ -29,48 +29,26 @@ public class DataClass extends Data{
         this.setDataClass(file);
     }
     //setter getter
-    public final void setVisibilityClass(String visibilityClass) {
-        this.visibilityClass = visibilityClass;
-    }
-    public String getVisibilityClass() {
-        return visibilityClass;
-    }
-    public final void setScopeClass(String scopeClass) {
-        this.scopeClass = scopeClass;
-    }
-    public String getScopeClass() {
-        return scopeClass;
-    }
-    public void setNameClass(String nameClass) {
-        this.nameClass = nameClass;
-    }
-    public String getNameClass() {
-        return nameClass;
-    }
-    public final void setSuperClass(String superClass) {
-        this.superClass = superClass;
-    }
-    public String getSuperClass() {
-        return superClass;
-    }
-    public void addInterfaceClasses(String interfaceClass) {
-        this.interfaceClasses.add(interfaceClass);
-    }
-    public ArrayList<String> getInterfaceClasses() {
-        return interfaceClasses;
-    }
-    public void addDataAttributeClasses(DataAttribute dataattribute){
-        this.dataAttributeClasses.add(dataattribute);
-    }
-    public ArrayList<DataAttribute> getDataAttributeClasses() {
-        return dataAttributeClasses;
-    }
-    public void addDataMethodClasses(DataMethod datamethod){
-        this.dataMethodClasses.add(datamethod);
-    }
-    public ArrayList<DataMethod> getDataMethodClasses() {
-        return dataMethodClasses;
-    }
+    public final void setVisibilityClass(String visibilityClass) { this.visibilityClass = visibilityClass; }
+    public String getVisibilityClass() { return visibilityClass; }
+    
+    public final void setScopeClass(String scopeClass) { this.scopeClass = scopeClass; }
+    public String getScopeClass() { return scopeClass; }
+    
+    public void setNameClass(String nameClass) { this.nameClass = nameClass; }
+    public String getNameClass() { return nameClass; }
+    
+    public final void setSuperClass(String superClass) { this.superClass = superClass; }
+    public String getSuperClass() { return superClass; }
+    
+    public void addInterfaceClasses(String interfaceClass) { this.interfaceClasses.add(interfaceClass); }
+    public ArrayList<String> getInterfaceClasses() { return interfaceClasses; }
+    
+    public void addDataAttributeClasses(DataAttribute dataattribute){ this.dataAttributeClasses.add(dataattribute); }
+    public ArrayList<DataAttribute> getDataAttributeClasses() { return dataAttributeClasses; }
+    
+    public void addDataMethodClasses(DataMethod datamethod){ this.dataMethodClasses.add(datamethod); }
+    public ArrayList<DataMethod> getDataMethodClasses() { return dataMethodClasses; }
     //method
     public final void setDataClass(File file) throws Exception{
         FileReader filereader = new FileReader(file);
@@ -91,13 +69,12 @@ public class DataClass extends Data{
         }
         sourceCode = this.deleteComments(sourceCode);
         sourceCode = this.deleteBodyMethods(sourceCode);
-        System.out.printf("%s", sourceCode);//sadgggggggggg
         String[] arr_lines = sourceCode.split("\n");
         for (String iter : arr_lines) {
             iter = iter.trim();
-            if(iter.contains("import ")) {
-            } else if(iter.contains("package ")) {
-            } else if(iter.contains(" class ")) {
+            if(iter.contains("import")) {
+            } else if(iter.contains("package")) {
+            } else if(iter.contains("class")) {
                 this.isClass = true;
                 String[] arr_iter = iter.split(" ");
                 for (int i = 0; i < arr_iter.length; i++) {
@@ -124,7 +101,7 @@ public class DataClass extends Data{
                     }
                 }
             }
-            else if(iter.contains(" interface")) {
+            else if(iter.contains("interface")) {
                 this.isInterface = true;
                 String[] arr_iter = iter.split(" ");
                 for (int i = 0; i < arr_iter.length; i++) {
@@ -153,10 +130,14 @@ public class DataClass extends Data{
             }
             else if(iter.contains("(") && iter.contains(")") && iter.contains("{") && iter.contains("}")) {
                 DataMethod datamethod = new DataMethod(iter);
+                if(datamethod.getNameMethod().equals(this.getNameClass()))
+                    datamethod.setTypeMethod("Constructor");
                 this.addDataMethodClasses(datamethod);
             }
-            else if(iter.contains(" ( ) ;") && iter.contains(" abstract ")) {
+            else if(iter.contains(" ( ) ;") && iter.contains("abstract")) {
                 DataMethod datamethod = new DataMethod(iter);
+                if(datamethod.getNameMethod().equals(this.getNameClass()))
+                    datamethod.setTypeMethod("Constructor");
                 this.addDataMethodClasses(datamethod);
             }
             else if(iter.contains(";")) {

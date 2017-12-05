@@ -17,36 +17,20 @@ public class DataMethod extends Data{
         this.setDataMethod(line);
     }
     //setter getter
-    public final void setVisibilityMethod(String visibilityMethod){
-        this.visibilityMethod = visibilityMethod;
-    }
-    public String getVisibilityMethod(){
-        return visibilityMethod;
-    }
-    public final void setScopeMethod(String scopeMethod){
-        this.scopeMethod = scopeMethod;
-    }
-    public String getScopeMethod(){
-        return scopeMethod;
-    }
-    public void setTypeMethod(String typeMethod){
-        this.typeMethod = typeMethod;
-    }
-    public String getTypeMethod(){
-        return typeMethod;
-    }
-    public void setNameMethod(String nameMethod){
-        this.nameMethod = nameMethod;
-    }
-    public String getNameMethod(){
-        return nameMethod;
-    }
-    public void addParameterMethods(DataParameter parameterMethod){
-        this.parameterMethods.add(parameterMethod);
-    }
-    public ArrayList<DataParameter> getParameterMethods(){
-        return parameterMethods;
-    }
+    public final void setVisibilityMethod(String visibilityMethod){ this.visibilityMethod = visibilityMethod; }
+    public String getVisibilityMethod(){ return visibilityMethod; }
+    
+    public final void setScopeMethod(String scopeMethod){ this.scopeMethod = scopeMethod; }
+    public String getScopeMethod(){ return scopeMethod; }
+    
+    public void setTypeMethod(String typeMethod){ this.typeMethod = typeMethod; }
+    public String getTypeMethod(){ return typeMethod; }
+    
+    public void setNameMethod(String nameMethod){ this.nameMethod = nameMethod; }
+    public String getNameMethod(){ return nameMethod; }
+    
+    public void addParameterMethods(DataParameter parameterMethod){ this.parameterMethods.add(parameterMethod); }
+    public ArrayList<DataParameter> getParameterMethods(){ return parameterMethods; }
     //method 
     public final void setDataMethod(String line){ //public void getName ( ) { }
             int start_rou_bra = line.indexOf('(');
@@ -72,6 +56,7 @@ public class DataMethod extends Data{
         this.setTypeMethod(arr_datamethod[arr_datamethod.length - 2]);
         this.setNameMethod(arr_datamethod[arr_datamethod.length - 1]);
     }
+    
     @Override
     public String toString() {
         String temp = "";
@@ -79,9 +64,9 @@ public class DataMethod extends Data{
         temp = temp.concat(getNameMethod() + "(");
         for (int i = 0; i < parameterMethods.size(); i++){
             temp = temp.concat(parameterMethods.get(i).toString());
-            if(i < (parameterMethods.size() - 1)) temp = temp.concat(", ");
+            if(i < (parameterMethods.size() - 1)) temp = temp.concat(",");
         }
-        temp = temp.concat("): " + getTypeMethod());
-        return temp.trim();
+        temp = temp.concat("):" + getTypeMethod());
+        return temp;
     }
 }
