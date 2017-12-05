@@ -2,46 +2,100 @@ package Visualizer;
 
 import java.awt.*;
 import javax.swing.*;
+import Parser.*;
 import com.mindfusion.drawing.*;
 import com.mindfusion.diagramming.*;
-import Parser.*;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.LinkedList;
 
 public class MainVisualizingPanel extends JScrollPane {
     private Diagram diagram;
     private DiagramView diagramView;
     
+    private final LinkedList<TableNode> nodeContainer;
+    private final LinkedList<DataClass> classContainer;
+
+    public MainVisualizingPanel() {
+        this.nodeContainer = new LinkedList<TableNode>();
+        this.classContainer = new LinkedList<DataClass>();
+    }
+    
     public void draw(DataProject data) {
-        diagram = new Diagram();
-        diagramView = new DiagramView(diagram);
+        this.diagram = new Diagram();
+        this.diagramView = new DiagramView(this.diagram);
         
-        this.setViewportView(diagramView);
+        this.setViewportView(this.diagramView);
         
         this.generateNodes(data);
         
+        this.generateLinks();
+        
         TreeLayout layout = new TreeLayout();
-        layout.arrange(diagram);
+        layout.arrange(this.diagram);
         
-        diagramView.setBehavior(Behavior.PanAndModify);
-	diagramView.setModificationStart(ModificationStart.AutoHandles);
+        this.diagramView.setBehavior(Behavior.PanAndModify);
+	this.diagramView.setModificationStart(ModificationStart.AutoHandles);
         
-        diagram.resizeToFitItems(5);
-        diagram.setAutoResize(AutoResize.AllDirections);
+        this.diagram.resizeToFitItems(5);
+        this.diagram.setAutoResize(AutoResize.AllDirections);
+        
+        this.zoom();
     }
     
     private void generateNodes(DataProject data) {
-        diagram.clearAll();
+        this.diagram.clearAll();
         data.getDataClasses().stream().map((DataClass aClass) -> {
-            TableNode node = diagram.getFactory().createTableNode(10, 10, 50, 100);
+            this.classContainer.add(aClass);
+            TableNode node = MainVisualizingPanel.this.diagram.getFactory().createTableNode(10, 10, 50, 100);
             node.redimTable(1, 0);
             node.setCellFrameStyle(CellFrameStyle.None);
-            this.createTitle(node, aClass.getNameClass());
-            this.createContent(node, aClass);
+            MainVisualizingPanel.this.createTitle(node, aClass.getNameClass());
+            MainVisualizingPanel.this.createContent(node, aClass);
             return node;
         }).map((TableNode node) -> {
             node.resizeToFitText(true);
+            node.setShadowBrush(new SolidBrush(Color.WHITE));
             return node;
-        }).forEachOrdered((node) -> {
-            diagram.add(node);
+        }).forEachOrdered((TableNode node) -> {
+            this.nodeContainer.add(node);
+            this.diagram.add(node);
+        });
+    }
+    
+    private void generateLinks() {
+        TableNode parentNode, childNode;
+        for (int i = 0; i < this.nodeContainer.size(); i++) {
+            childNode = this.nodeContainer.get(i);
+            if (!this.classContainer.get(i).getSuperClass().equals("no")) {
+                String _parentName = this.classContainer.get(i).getSuperClass();
+                for (int j = 0; j < this.classContainer.size(); j++) {
+                    if (this.classContainer.get(j).getNameClass().equals(_parentName)) {
+                        parentNode = this.nodeContainer.get(j);
+                        this.styleHeadShape(parentNode, childNode, "IS-A-extends");
+                        break;
+                    }
+                }
+            }
+//            if (this.classContainer.get(i).getInterfaceClasses().size() > 0) {
+//                for (int j = 0; j < this.classContainer.size(); j++) {
+//                    if (this.classContainer.get(i).getInterfaceClasses().contains(this.classContainer.get(j))) {
+//                        parentNode = this.nodeContainer.get(j);
+//                        this.styleHeadShape(parentNode, childNode, "IS-A-implements");
+//                    }
+//                }
+//            }
+        }
+    }
+    
+    private void zoom() {
+        this.diagramView.addMouseWheelListener((MouseWheelEvent e) -> {
+            int wheelRotation = e.getWheelRotation();
+            if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+                float zoomFactor = diagramView.getZoomFactor();
+                if (zoomFactor <= 30 && wheelRotation > 0) return;
+                diagramView.setZoomFactor(zoomFactor - wheelRotation);
+            }
         });
     }
     
@@ -79,4 +133,27 @@ public class MainVisualizingPanel extends JScrollPane {
         cell.setBrush(new SolidBrush(Color.WHITE));
     }
     
+    private void styleHeadShape(TableNode parentNode, TableNode childNode, String relationship) {
+        DiagramLink link = this.diagram.getFactory().createDiagramLink(parentNode, childNode);
+        switch(relationship) {
+            case "IS-A-extends":
+                link.setBaseShape(ArrowHeads.Triangle);
+                link.setHeadShape(ArrowHeads.None);
+                link.setShadowBrush(new SolidBrush(Color.WHITE));
+                break;
+            case "IS-A-implements":
+                link.getPen().setDashStyle(DashStyle.Dash);
+                link.setBaseShape(ArrowHeads.Triangle);
+                link.setHeadShape(ArrowHeads.None);
+                link.setShadowBrush(new SolidBrush(Color.WHITE));
+                break;
+            case "HAS-A":
+                link.setBaseShape(ArrowHeads.Rhombus);
+                link.setHeadShape(ArrowHeads.None);
+                link.setShadowBrush(new SolidBrush(Color.WHITE));
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -78,7 +78,7 @@ public class DataClass extends Data{
                 this.isClass = true;
                 String[] arr_iter = iter.split(" ");
                 for (int i = 0; i < arr_iter.length; i++) {
-                    if(this.isVisibility(arr_iter[i])){
+                    if(isVisibility(arr_iter[i])){
                         this.setVisibilityClass(arr_iter[i]);
                     }
                     else if(arr_iter[i].equals("static")) {
@@ -105,7 +105,7 @@ public class DataClass extends Data{
                 this.isInterface = true;
                 String[] arr_iter = iter.split(" ");
                 for (int i = 0; i < arr_iter.length; i++) {
-                    if(this.isVisibility(arr_iter[i])){
+                    if(isVisibility(arr_iter[i])){
                         this.setVisibilityClass(arr_iter[i]);
                     }
                     else if(arr_iter[i].equals("static")) {
@@ -141,8 +141,9 @@ public class DataClass extends Data{
                 this.addDataMethodClasses(datamethod);
             }
             else if(iter.contains(";")) {
-                DataAttribute dataattribute = new DataAttribute(iter);
-                this.addDataAttributeClasses(dataattribute);
+                for (DataAttribute var : DataAttribute.setDataAttribute(iter)) {
+                    this.addDataAttributeClasses(var);
+                } 
             }
         }
     }
@@ -198,8 +199,9 @@ public class DataClass extends Data{
         }
         return temp;
     }
-    // public static void main(String[] args) throws Exception {
-    //     File ex = new File("/home/xuanquynh/Downloads/OOP/UML-Parser-Visualizer-master/Test/Data.java");
-    //     DataClass dataclass = new DataClass(ex);
-    // }
+    /* public static void main(String[] args) throws Exception {
+        File ex = new File("/home/xuanquynh/Downloads/OOP/tuan8/Cau1/Addition.java");
+        DataClass dataclass = new DataClass(ex);
+        System.out.printf("%s", dataclass.toString());
+    } */
 }

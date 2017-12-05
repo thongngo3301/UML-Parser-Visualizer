@@ -8,32 +8,32 @@ public class Data{
     private static final ArrayList<String> visibilitys = new ArrayList<String>();
     //constructor
     public Data(){
-        if(this.getTypes().isEmpty()) {
-            this.getTypes().add("boolean");this.getTypes().add("char");this.getTypes().add("int");
-            this.getTypes().add("short");this.getTypes().add("long");this.getTypes().add("float");
-            this.getTypes().add("double");
+        if(getTypes().isEmpty()) {
+            getTypes().add("boolean");getTypes().add("char");getTypes().add("int");
+            getTypes().add("short");getTypes().add("long");getTypes().add("float");
+            getTypes().add("double");
         }
-        if(this.getVisibilitys().isEmpty()) {
-            this.getVisibilitys().add("public");this.getVisibilitys().add("private");
-            this.getVisibilitys().add("protected");
+        if(getVisibilitys().isEmpty()) {
+            getVisibilitys().add("public");getVisibilitys().add("private");
+            getVisibilitys().add("protected");
         }
     }
     //setter getter
     public void addTypes(String type) {
-        this.getTypes().add(type);
+        getTypes().add(type);
     }
-    public final ArrayList<String> getTypes() {
+    public static final ArrayList<String> getTypes() {
         return types;
     }
-    public final ArrayList<String> getVisibilitys() {
+    public static final ArrayList<String> getVisibilitys() {
         return visibilitys;
     }
     //method
-    public boolean isType(String type) {
-        return this.getTypes().contains(type);
+    public static boolean isType(String type) {
+        return getTypes().contains(type);
     }
-    public boolean isVisibility(String visibility) {
-        return this.getVisibilitys().contains(visibility);
+    public static boolean isVisibility(String visibility) {
+        return getVisibilitys().contains(visibility);
     }
     public String toStringVisibility(String visibility) {
         String temp = "\n";
