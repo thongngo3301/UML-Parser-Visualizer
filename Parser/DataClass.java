@@ -139,7 +139,7 @@ public class DataClass extends Data{
                     datamethod.setTypeMethod("Constructor");
                 this.addDataMethodClasses(datamethod);
             }
-            else if(iter.contains(" ( ) ;") && iter.contains("abstract")) {
+            else if(iter.contains(" ( ) ;") && (iter.contains("abstract") || this.isInterface)) {
                 DataMethod datamethod = new DataMethod(iter);
                 if(datamethod.getNameMethod().equals(this.getNameClass()))
                     datamethod.setTypeMethod("Constructor");

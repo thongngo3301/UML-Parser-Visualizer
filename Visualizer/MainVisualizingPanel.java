@@ -30,15 +30,14 @@ public class MainVisualizingPanel extends JScrollPane {
         this.generateNodes(data);
         
         this.generateLinks();
-        
-        TreeLayout layout = new TreeLayout();
-        layout.arrange(this.diagram);
-        
         this.diagramView.setBehavior(Behavior.PanAndModify);
 	this.diagramView.setModificationStart(ModificationStart.AutoHandles);
         
         this.diagram.resizeToFitItems(5);
         this.diagram.setAutoResize(AutoResize.AllDirections);
+        
+        this.diagram.setLinkRouter(new QuickRouter(diagram));
+        this.diagram.setLinkCrossings(LinkCrossings.Cut);
         
         this.zoom();
     }
@@ -47,7 +46,9 @@ public class MainVisualizingPanel extends JScrollPane {
         this.diagram.clearAll();
         data.getDataClasses().stream().map((DataClass aClass) -> {
             this.classContainer.add(aClass);
-            TableNode node = MainVisualizingPanel.this.diagram.getFactory().createTableNode(10, 10, 50, 100);
+            TableNode node = MainVisualizingPanel.this.diagram.getFactory().createTableNode(0, 0, 1, 1);
+            node.setAllowResizeColumns(false);
+            node.setAllowResizeRows(false);
             node.redimTable(1, 0);
             node.setCellFrameStyle(CellFrameStyle.None);
             MainVisualizingPanel.this.createTitle(node, aClass.getNameClass());
@@ -77,23 +78,28 @@ public class MainVisualizingPanel extends JScrollPane {
                     }
                 }
             }
-//            if (this.classContainer.get(i).getInterfaceClasses().size() > 0) {
-//                for (int j = 0; j < this.classContainer.size(); j++) {
-//                    if (this.classContainer.get(i).getInterfaceClasses().contains(this.classContainer.get(j))) {
-//                        parentNode = this.nodeContainer.get(j);
-//                        this.styleHeadShape(parentNode, childNode, "IS-A-implements");
-//                    }
-//                }
-//            }
+            if (this.classContainer.get(i).getInterfaceClasses().size() > 0) {
+                ArrayList<String> interfaceClasses = this.classContainer.get(i).getInterfaceClasses();
+                for (int j = 0; j < this.classContainer.size(); j++) {
+                    if (interfaceClasses.contains(this.classContainer.get(j).getNameClass())) {
+                        parentNode = this.nodeContainer.get(j);
+                        this.styleHeadShape(parentNode, childNode, "IS-A-implements");
+                    }
+                }
+            }
+        }
+        
+        TreeLayout layout = new TreeLayout();
+        layout.arrange(this.diagram);
+        
+        for (int i = 0; i < this.nodeContainer.size(); i++) {
+            parentNode = this.nodeContainer.get(i);
             if (this.classContainer.get(i).getDataHasAClasses().size() > 0) {
                 ArrayList<String> dataHasAClasses = this.classContainer.get(i).getDataHasAClasses();
-                for (int j = 0; j < dataHasAClasses.size(); j++) {
-                    for (int k = 0; k < this.classContainer.size(); k++) {
-                        if (this.classContainer.get(k).getNameClass().equals(dataHasAClasses.get(j))) {
-                            parentNode = this.nodeContainer.get(i);
-                            this.styleHeadShape(parentNode, childNode, "HAS-A");
-                            break;
-                        }
+                for (int j = 0; j < this.classContainer.size(); j++) {
+                    if (dataHasAClasses.contains(this.classContainer.get(j).getNameClass())) {
+                        childNode = this.nodeContainer.get(j);
+                        this.styleHeadShape(parentNode, childNode, "HAS-A");
                     }
                 }
             }
@@ -154,12 +160,13 @@ public class MainVisualizingPanel extends JScrollPane {
                 link.setShadowBrush(new SolidBrush(Color.WHITE));
                 break;
             case "IS-A-implements":
-                link.getPen().setDashStyle(DashStyle.Dash);
-                link.setBaseShape(ArrowHeads.Triangle);
+//                link.getPen().setDashStyle(DashStyle.Dash);
+                link.setBaseShape(ArrowHeads.Arrow);
                 link.setHeadShape(ArrowHeads.None);
                 link.setShadowBrush(new SolidBrush(Color.WHITE));
                 break;
             case "HAS-A":
+                link.setAutoRoute(true);
                 link.setBaseShape(ArrowHeads.Rhombus);
                 link.setHeadShape(ArrowHeads.None);
                 link.setShadowBrush(new SolidBrush(Color.WHITE));
