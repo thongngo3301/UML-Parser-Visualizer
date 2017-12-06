@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainVisualizingPanel extends JScrollPane {
+
     private Diagram diagram;
     private DiagramView diagramView;
-    
+
     private final LinkedList<TableNode> nodeContainer;
     private final LinkedList<DataClass> classContainer;
 
@@ -20,28 +21,28 @@ public class MainVisualizingPanel extends JScrollPane {
         this.nodeContainer = new LinkedList<TableNode>();
         this.classContainer = new LinkedList<DataClass>();
     }
-    
+
     public void draw(DataProject data) {
         this.diagram = new Diagram();
         this.diagramView = new DiagramView(this.diagram);
-        
+
         this.setViewportView(this.diagramView);
-        
+
         this.generateNodes(data);
-        
+
         this.generateLinks();
         this.diagramView.setBehavior(Behavior.PanAndModify);
-	this.diagramView.setModificationStart(ModificationStart.AutoHandles);
-        
+        this.diagramView.setModificationStart(ModificationStart.AutoHandles);
+
         this.diagram.resizeToFitItems(5);
         this.diagram.setAutoResize(AutoResize.AllDirections);
-        
+
         this.diagram.setLinkRouter(new QuickRouter(diagram));
         this.diagram.setLinkCrossings(LinkCrossings.Cut);
-        
+
         this.zoom();
     }
-    
+
     private void generateNodes(DataProject data) {
         this.diagram.clearAll();
         data.getDataClasses().stream().map((DataClass aClass) -> {
@@ -63,7 +64,7 @@ public class MainVisualizingPanel extends JScrollPane {
             this.diagram.add(node);
         });
     }
-    
+
     private void generateLinks() {
         TableNode parentNode, childNode;
         for (int i = 0; i < this.nodeContainer.size(); i++) {
@@ -88,10 +89,10 @@ public class MainVisualizingPanel extends JScrollPane {
                 }
             }
         }
-        
+
         TreeLayout layout = new TreeLayout();
         layout.arrange(this.diagram);
-        
+
         for (int i = 0; i < this.nodeContainer.size(); i++) {
             parentNode = this.nodeContainer.get(i);
             if (this.classContainer.get(i).getDataHasAClasses().size() > 0) {
@@ -105,24 +106,26 @@ public class MainVisualizingPanel extends JScrollPane {
             }
         }
     }
-    
+
     private void zoom() {
         this.diagramView.addMouseWheelListener((MouseWheelEvent e) -> {
             int wheelRotation = e.getWheelRotation();
             if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
                 float zoomFactor = diagramView.getZoomFactor();
-                if (zoomFactor <= 30 && wheelRotation > 0) return;
+                if (zoomFactor <= 30 && wheelRotation > 0) {
+                    return;
+                }
                 diagramView.setZoomFactor(zoomFactor - wheelRotation);
             }
         });
     }
-    
+
     private void createTitle(TableNode node, String title) {
         node.setCaption(title);
         node.setCaptionHeight(10);
         node.setFont(new Font("Arial", Font.BOLD, 5));
     }
-    
+
     private void createContent(TableNode node, DataClass classContent) {
         Cell cell = node.getCell(0, node.addRow());
         this.styleClassMember(cell, "Attributes");
@@ -135,7 +138,7 @@ public class MainVisualizingPanel extends JScrollPane {
             this.styleMemberProperties(node, method.toString().trim());
         });
     }
-    
+
     private void styleClassMember(Cell cell, String member) {
         cell.setTextColor(Color.white);
         cell.setFont(new Font("Arial", Font.BOLD, 4));
@@ -143,17 +146,18 @@ public class MainVisualizingPanel extends JScrollPane {
         cell.setTextFormat(new TextFormat(Align.Center, Align.Center));
         cell.setBrush(new SolidBrush(Color.GRAY));
     }
-    
+
     private void styleMemberProperties(TableNode node, String prop) {
         Cell cell = node.getCell(0, node.addRow());
         cell.setFont(new Font("Arial", Font.PLAIN, 4));
         cell.setText(prop);
         cell.setBrush(new SolidBrush(Color.WHITE));
     }
-    
+
     private void styleHeadShape(TableNode parentNode, TableNode childNode, String relationship) {
         DiagramLink link = this.diagram.getFactory().createDiagramLink(parentNode, childNode);
-        switch(relationship) {
+        link.setLocked(true);
+        switch (relationship) {
             case "IS-A-extends":
                 link.setBaseShape(ArrowHeads.Triangle);
                 link.setHeadShape(ArrowHeads.None);

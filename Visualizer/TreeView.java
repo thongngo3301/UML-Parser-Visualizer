@@ -9,12 +9,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TreeView extends JScrollPane {
+
     private int classesCounter;
-    
+
     public TreeView() {
         this.init(new DefaultMutableTreeNode("Empty"));
     }
-    
+
     public void draw(DataProject data) {
         try {
             RootNode node = new RootNode(data);
@@ -24,14 +25,14 @@ public class TreeView extends JScrollPane {
             Logger.getLogger(TreeView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public int getClassesCounter(){
+
+    public int getClassesCounter() {
         return classesCounter;
     }
-    
+
     private void init(DefaultMutableTreeNode node) {
         JTree tree = new JTree(node);
-        
+
         tree.setRootVisible(true);
         tree.setShowsRootHandles(true);
 
